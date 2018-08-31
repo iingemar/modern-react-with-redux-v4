@@ -28,6 +28,8 @@ class SearchBar extends Component {
         const userInput = event.target.value;
         // ONLY manipulate state like this!!11 11
         this.setState({ userInput: userInput });
+
+        this.props.onSearchTermChange(userInput);
     }
 }
 

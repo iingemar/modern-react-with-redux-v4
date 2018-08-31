@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import YoutubeSearch from 'youtube-api-search';
@@ -22,7 +23,11 @@ class App extends React.Component {
             selectedVideo: null
         };
 
-        YoutubeSearch({ key: YOUTUBE_API_KEY, term: 'cats' }, (videos) => {
+        this.videoSearch('cats');
+    }
+
+    videoSearch(term) {
+        YoutubeSearch({ key: YOUTUBE_API_KEY, term: term }, (videos) => {
             // ES6 magic! Same as: this.setState({ videos:videos })
             this.setState({
                 videos: videos,
@@ -31,12 +36,14 @@ class App extends React.Component {
         });
     }
 
-
     render() {
+        // Throttles the search. Can only be called once every 300 ms
+        const debouncedVideoSearch = _.debounce((term) => {this.videoSearch(term)}, 300);
+
         return (
             <div>
                 <div>hello.</div>
-                <SearchBar />
+                <SearchBar onSearchTermChange={debouncedVideoSearch}/>
                 <VideoDetail video={this.state.selectedVideo} />
                 <VideoList
                     onVideoSelect={selectedVideo => this.setState({selectedVideo})}
