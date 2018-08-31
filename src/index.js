@@ -18,12 +18,16 @@ class App extends React.Component {
         super(props);
 
         this.state = {
-            videos: []
+            videos: [],
+            selectedVideo: null
         };
 
         YoutubeSearch({ key: YOUTUBE_API_KEY, term: 'cats' }, (videos) => {
             // ES6 magic! Same as: this.setState({ videos:videos })
-            this.setState({ videos });
+            this.setState({
+                videos: videos,
+                selectedVideo: videos[0]
+            });
         });
     }
 
@@ -33,8 +37,10 @@ class App extends React.Component {
             <div>
                 <div>hello.</div>
                 <SearchBar />
-                <VideoDetail video={this.state.videos[0]} />
-                <VideoList videos={this.state.videos}/>
+                <VideoDetail video={this.state.selectedVideo} />
+                <VideoList
+                    onVideoSelect={selectedVideo => this.setState({selectedVideo})}
+                    videos={this.state.videos}/>
             </div>
         );
     }
