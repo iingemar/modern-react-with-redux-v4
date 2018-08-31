@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom';
 
 // https://babeljs.io/repl
 
-const App = function() {
+const YOUTUBE_API_KEY = 'AIzaSyAeY6ehp-7Ty1xMsWyIS7qXPXZR840Qc4c';
+
+const App = () => {
     return <div>hello.</div>
 };
 
