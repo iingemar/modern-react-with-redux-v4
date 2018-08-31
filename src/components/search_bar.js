@@ -2,15 +2,30 @@ import React, { Component } from 'react';
 // Import React and pull off the Component and call it Component
 // const Component = React.Component
 
-
 class SearchBar extends Component {
-    render() {
-        return <input onChange={this.onInputChange}/>;
+    constructor(props) {
+        super(props);
+
+        // Each class based component has its own state object.
+        // When ever it changes, the component and sub components re renders.
+        this.state = {
+            userInput: ''
+        };
     }
 
-    onInputChange(event) {
-        const value = event.target.value;
-        console.log(value);
+    render() {
+        return (
+            <div>
+                <input onChange={this.onInputChange}/>
+                <div>state.userInput: { this.state.userInput }</div>
+            </div>
+        );
+    }
+
+    onInputChange = (event) =>  {
+        const userInput = event.target.value;
+        // ONLY manipulate state like this!!11 11
+        this.setState({ userInput: userInput });
     }
 }
 
