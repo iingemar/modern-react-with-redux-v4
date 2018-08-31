@@ -20,7 +20,7 @@ class App extends React.Component {
             videos: []
         };
 
-        YoutubeSearch({ key: YOUTUBE_API_KEY, term: 'surfboards' }, (videos) => {
+        YoutubeSearch({ key: YOUTUBE_API_KEY, term: 'cats' }, (videos) => {
             // ES6 magic! Same as: this.setState({ videos:videos })
             this.setState({ videos });
         });
