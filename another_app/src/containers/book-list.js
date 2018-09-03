@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-export default class BookList extends Component {
+class BookList extends Component {
     renderList() {
         return this.props.books.map((book) => {
             return (
@@ -18,5 +19,15 @@ export default class BookList extends Component {
             </ul>
         );
     }
-
 }
+
+// Whenever application state changes, bookList will re render.
+function mapStateToProps(state) {
+    // Whatever is returned from here will show up as props inside BookList
+    return {
+        books: state.books
+    }
+}
+
+// Takes function and component. Connect produces a container that is aware of state in redux
+export default connect(mapStateToProps)(BookList);
