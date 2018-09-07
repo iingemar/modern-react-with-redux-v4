@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import { createPost } from "../actions";
+
 
 class PostsNew extends Component {
     // Spread operator magic! Instead of onChange={field.input.onChange} etc...
@@ -9,7 +13,7 @@ class PostsNew extends Component {
         const className = `form-group ${hasError ? 'has-danger' : ''}`;
 
         return (
-            <div className={hasError}>
+            <div className={className}>
                 <label>{field.label}</label>
                 <input className="form-control" type="text" {...field.input} />
                 <div className="text-help">
@@ -19,9 +23,11 @@ class PostsNew extends Component {
         );
     }
 
+    // Here we want to call an action creator that POST to our api backend.
     onSubmit(values) {
         // this === component, because we did .bind(this)
         console.log(values);
+        this.props.createPost(values);
     }
 
     render() {
@@ -53,7 +59,10 @@ class PostsNew extends Component {
                         label="Categories"
                         component={this.renderField}
                     />
-                    <button type="submit" className="btn btn-primiary">Submit</button>
+                    <button type="submit" className="btn btn-primary">Submit</button>
+                    <Link className="btn btn-danger" to="/posts">
+                        Cancel
+                    </Link>
                 </form>
             </div>
         );
@@ -86,4 +95,8 @@ function validate(values) {
 export default reduxForm({
     validate: validate,
     form: 'PostsNewForm'
-})(PostsNew);
+})(
+    connect(null, { createPost })(PostsNew)
+);
+
+
