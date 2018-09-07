@@ -4,7 +4,11 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { createPost } from "../actions";
 
-
+// User submits form
+// Redux forms: Validate form
+// Call onSubmit
+// Call an action creator to make API request
+// After success, navigate user to post list. With programmatic navigation.
 class PostsNew extends Component {
     // Spread operator magic! Instead of onChange={field.input.onChange} etc...
     // Put all the props of field.input on to the input element.
@@ -23,11 +27,18 @@ class PostsNew extends Component {
         );
     }
 
+    onSuccess() {
+        // Go back to the root of our application. Needs to match
+        // one of our paths we config earlier..
+        this.props.history.push('/');
+    }
+
     // Here we want to call an action creator that POST to our api backend.
     onSubmit(values) {
         // this === component, because we did .bind(this)
         console.log(values);
-        this.props.createPost(values);
+        // added to props from .connect
+        this.props.createPost(values, this.onSuccess.bind(this));
     }
 
     render() {
