@@ -5,19 +5,39 @@ class PostsNew extends Component {
     // Spread operator magic! Instead of onChange={field.input.onChange} etc...
     // Put all the props of field.input on to the input element.
     renderField(field) {
+        const hasError = field.meta.touched && field.meta.error;
+        const className = `form-group ${hasError ? 'has-danger' : ''}`;
+
         return (
-            <div className="form-group">
+            <div className={hasError}>
                 <label>{field.label}</label>
                 <input className="form-control" type="text" {...field.input} />
-                {field.meta.error}
+                <div className="text-help">
+                    {field.meta.touched ? field.meta.error : ''}
+                </div>
             </div>
         );
     }
 
+    onSubmit(values) {
+        // this === component, because we did .bind(this)
+        console.log(values);
+    }
+
     render() {
+        // Added to props from reduxForm helper
+        // Handles the redux forms stuffs like validation etc.
+        // Then it calls our onSubmit that posts to api.
+        const { handleSubmit } = this.props;
+
+        // Every field has 3 states;
+        // pristine - brand new and shiny
+        // touched - focused, entered text and then clicked away
+        // invalid - some error input
+
         return (
             <div>
-                <form>
+                <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
                     <Field
                         name="title"
                         label="Title"
@@ -33,6 +53,7 @@ class PostsNew extends Component {
                         label="Categories"
                         component={this.renderField}
                     />
+                    <button type="submit" className="btn btn-primiary">Submit</button>
                 </form>
             </div>
         );
